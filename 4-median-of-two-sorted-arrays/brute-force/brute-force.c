@@ -1,32 +1,56 @@
 #include <stdlib.h>
-#include <string.h>
 
-int lengthOfLongestSubstring(char* s)
+int min(int a, int b)
 {
-    int length = strlen(s);
-    int max    = 0;
+    return (a <= b) ? a : b;
+}
 
-    for (int i = 0; i < length; i++)
+int max(int a, int b)
+{
+    return (a >= b) ? a : b;
+}
+
+double findMedianSortedArrays(int* nums1, int nums1Size, int* nums2, int nums2Size)
+{
+    int* mergedArr = (int*)(malloc((nums1Size + nums2Size) * sizeof(int)));
+    double median = 0;
+
+    int i = 0, j = 0, k = 0;
+
+    while ((i < nums1Size) && (j < nums2Size))
     {
-        int count[128] = {0};
-
-        for (int j = i; j < length; j++)
+        if (nums1[i] < nums2[j])
         {
-            if (count[s[j]])
-            {
-                break;
-            }
-            else
-            {
-                int tmp = j - i + 1;
-                if (tmp > max)
-                {
-                    max = tmp;
-                }
-                
-                count[s[j]] = 1;
-            }
+            mergedArr[k++] = nums1[i++];
+        }
+        else
+        {
+            mergedArr[k++] = nums2[j++];
         }
     }
-    return max;
+
+    while (i < nums1Size)
+    {
+        mergedArr[k++] = nums1[i++];
+    }
+
+    while (j < nums2Size)
+    {
+        mergedArr[k++] = nums2[j++];
+    }
+
+    if (((nums1Size + nums2Size) % 2) == 0)
+    {
+        int m1 = mergedArr[(nums1Size + nums2Size) >> 1];
+        int m2 = mergedArr[((nums1Size + nums2Size) >> 1) - 1];
+
+        median = (double)((m1 + m2) / 2.0);
+    }
+    else
+    {
+        median = (double)(mergedArr[(nums1Size + nums2Size) >> 1]);
+    }
+
+    free(mergedArr);
+    return median;
 }
