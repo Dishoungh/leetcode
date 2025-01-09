@@ -45,7 +45,7 @@ class Solution
             }
             else
             {
-                median = (double)(mergedArr[(m + n) / 2]);
+                median = (double)(mergedArr[t / 2]);
             }
 
             return median;
